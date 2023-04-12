@@ -3,6 +3,7 @@ dotenv.config()
 import retrieveSecret from "./secret-retriever.js";
 import {Sequelize} from "sequelize";
 import * as pg from 'pg';
+import initMappings from "../config/mapping.js";
 
 const secret_name = process.env.DB_INSTANCE_SECRET_NAME;
 const databaseUri = process.env.DB_URI;
@@ -19,4 +20,7 @@ export async function connectAndInit() {
             timestamps: false
         }
     });
+
+    console.log('Initializing ORM mapping');
+    initMappings(sequelize);
 }
