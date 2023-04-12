@@ -1,0 +1,26 @@
+{
+  "name": "energy-offers-manager",
+  "version": "1.0.0",
+  "description": "Energy offers for markets API Application",
+  "main": "app.js",
+  "repository": "",
+  "author": "Linda FATHALLAH",
+  "type": "module",
+  "scripts": {
+    "test": "mocha tests/unit/",
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "aws-sdk": "latest",
+    "body-parser": "latest",
+    "chai": "^4.2.0",
+    "ejs": "latest",
+    "express": "latest",
+    "json": "^11.0.0",
+    "mocha": "^9.1.4"
+  }
+}
