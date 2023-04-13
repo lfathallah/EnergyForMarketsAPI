@@ -1,0 +1,144 @@
+---
+swagger: '2.0'
+info:
+  version: 3.1.0
+  title: Energy Offers Manager
+  description: Energy Offers Manager Application API
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+host: localhost:3000
+basePath: "/"
+tags:
+  - name: Parks
+    description: API for CRUD parks
+  - name: Offers
+    description: APIs for CRUD offers
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  "/market/{id}/parks":
+    get:
+      tags:
+        - Parks
+      summary: Get all parks of a given market
+      parameters:
+        - name: id
+          in: path
+          description: Market ID
+          required: true
+          schema:
+            type: integer
+            format: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/Parks"
+  "/parks/new":
+    post:
+      tags:
+        - Parks
+      description: Create new user in system
+      parameters:
+        - name: park
+          in: body
+          description: Park that we want to create
+          schema:
+            "$ref": "#/definitions/Park"
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: New park is created
+          schema:
+            "$ref": "#/definitions/Park"
+  "/market/all/offers":
+    get:
+      tags:
+        - Offers
+      summary: Get all offers for a each market
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/OffersPerMarket"
+  "/offers/new":
+    post:
+      tags:
+        - Offers
+      description: Create new user in system
+      parameters:
+        - name: offer
+          in: body
+          description: Offer that we want to create
+          schema:
+            "$ref": "#/definitions/Offer"
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: New offer is created
+          schema:
+            "$ref": "#/definitions/Offer"
+definitions:
+  Park:
+    required:
+      - name
+      - id
+    properties:
+      id:
+        type: integer
+        uniqueItems: true
+      name:
+        type: string
+      address:
+        type: string
+      type:
+        type: integer
+      timeBlocks:
+        "$ref": "#/definitions/TimeBlocks"
+  Parks:
+    type: array
+    items:
+      $ref: "#/definitions/Park"
+  TimeBlock:
+    required:
+      - nbHours
+      - energyQuantity
+      - minPrice
+    properties:
+      nbHours:
+        type: integer
+      energyQuantity:
+        type: integer
+      minPrice:
+        type: number
+  TimeBlocks:
+    type: array
+    items:
+      $ref: "#/definitions/TimeBlock"
+  Offer:
+    required:
+      - price
+      - id
+      - energyQuantity
+      - marketName
+    properties:
+      id:
+        type: integer
+        uniqueItems: true
+      marketName:
+        type: integer
+      price:
+        type: number
+      energyQuantity:
+        type: integer
+  Offers:
+    type: array
+    items:
+      $ref: "#/definitions/Offer"

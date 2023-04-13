@@ -1,16 +1,20 @@
 import * as dotenv from 'dotenv'
 dotenv.config()
-import express from "express";
+import express from "express"
 import {connectAndInit} from "./utils/db-connect.js";
 import {createPark} from "./persistence/ParkRepository.js";
 import bodyParser from "body-parser";
 import cors from "cors";
+import * as swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+const swaggerDocument = YAML.load('./swagger.yaml')
 
 const port = 3000;
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json())
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(cors());
 
 let sequelize;
