@@ -23,4 +23,6 @@ export async function connectAndInit() {
 
     console.log('Initializing ORM mapping');
     initMappings(sequelize);
+
+    return sequelize;
 }

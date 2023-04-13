@@ -4,6 +4,7 @@ import express from "express";
 import {connectAndInit} from "./utils/db-connect.js";
 import {createPark} from "./persistence/ParkRepository.js";
 import bodyParser from "body-parser";
+import cors from "cors";
 
 const port = 3000;
 const app = express();
@@ -12,8 +13,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json())
 app.use(cors());
 
+let sequelize;
+
  app.use(async (req, _res, next) => {
-     await connectAndInit();
+     sequelize = await connectAndInit();
      next()
  })
 
@@ -25,7 +28,7 @@ async function addPark(req, res) {
 
     try {
         console.log(`Creating new Energy Park with name ${name}`);
-        let park = await createPark(req.body);
+        let park = await createPark(req.body, sequelize);
         console.log(`Park created successfully`);
         res.send(`The new Energy Park with name ${park.name} has been created successfully with an auto-generated ID [${park.id}]`);
     } catch (error) {
