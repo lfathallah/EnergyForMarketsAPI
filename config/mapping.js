@@ -1,11 +1,11 @@
 import {Sequelize, DataTypes} from 'sequelize'
 
-import EnergyPark from "../domain/EnergyPark.js"
-import EnergyType from "../domain/EnergyType.js"
-import TimeBlock from "../domain/TimeBlock.js"
-import MarketType from "../domain/MarketType.js"
-import EnergyMarket from "../domain/EnergyMarket.js"
-import Offer from "../domain/Offer.js";
+import EnergyPark from "../models/EnergyPark.js"
+import EnergyType from "../models/EnergyType.js"
+import TimeBlock from "../models/TimeBlock.js"
+import MarketType from "../models/MarketType.js"
+import EnergyMarket from "../models/EnergyMarket.js"
+import Offer from "../models/Offer.js";
 
 const initMappings = (sequelize) => {
     EnergyPark.init({

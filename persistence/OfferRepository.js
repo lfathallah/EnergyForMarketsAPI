@@ -1,1 +1,1 @@
-import Offer from "../domain/Offer.js";
+import Offer from "../models/Offer.js";

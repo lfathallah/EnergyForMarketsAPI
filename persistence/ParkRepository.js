@@ -1,5 +1,5 @@
-import EnergyPark from "../domain/EnergyPark.js";
-import TimeBlock from "../domain/TimeBlock.js";
+import EnergyPark from "../models/EnergyPark.js";
+import TimeBlock from "../models/TimeBlock.js";
 
 export async function createPark(data, sequelize) {
     if (data) {
