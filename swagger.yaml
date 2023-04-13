@@ -115,7 +115,7 @@ definitions:
       nbHours:
         type: integer
       energyQuantity:
-        type: integer
+        type: number
       minPrice:
         type: number
   TimeBlocks:

@@ -18,16 +18,21 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(cors());
 
 let sequelize;
-let parksController = new ParksController();
+let parksController;
 
  app.use(async (req, _res, next) => {
+
      sequelize = await connectAndInit();
+     parksController = new ParksController(sequelize);
      next()
  })
 
-app.get('/', (req, res) => res.send("Welcome to the energy offers manager"));
+app.get('/', (req, res) => {
+    console.log("Welcome to the energy offers manager");
+    res.send("Welcome to the energy offers manager");
+});
 app.post('/parks/new', async (req, res) =>  {
-    let response = parksController.addPark(req, sequelize);
+    let response = parksController.addPark(req.body);
     res.status((await response).statusCode).send((await response).message);
 });
 

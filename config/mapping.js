@@ -58,7 +58,7 @@ const initMappings = (sequelize) => {
         nb_hours: DataTypes.INTEGER,
         energy_quantity: DataTypes.INTEGER,
         min_price: DataTypes.FLOAT,
-        energy_park_id: DataTypes.INTEGER,
+        energy_park_id: DataTypes.FLOAT,
         offer_id: DataTypes.BIGINT
     }, {
         sequelize,

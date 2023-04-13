@@ -1,31 +1,37 @@
 import EnergyPark from "../models/EnergyPark.js";
 import TimeBlock from "../models/TimeBlock.js";
+export default class ParkRepository {
 
-export async function createPark(data, sequelize) {
-    if (data) {
-        let park;
+    constructor(sequlize) {
+        this.sequelize = sequlize;
+    }
 
-        await sequelize.transaction(async (transaction) => {
-            park = await EnergyPark.create(
-                {name: data.name, address: data.address, type: data.type},
-                transaction
-            );
+    async createPark(data) {
+        if (data) {
+            let park;
 
-            let timeBlocks = [];
-            data.timeBlocks.map(timeBlock =>
-                timeBlocks.push(
-                    {
-                        nb_hours: timeBlock.nbHours,
-                        energy_quantity: timeBlock.energyQuantity,
-                        min_price: timeBlock.minPrice,
-                        energy_park_id: park.id
-                    })
-            )
-            await TimeBlock.bulkCreate(timeBlocks);
+            await this.sequelize.transaction(async (transaction) => {
+                park = await EnergyPark.create(
+                    {name: data.name, address: data.address, type: data.type},
+                    transaction
+                );
 
-            console.log("Created new Energy Park with auto-generated ID:", park.id);
-        });
+                let timeBlocks = [];
+                data.timeBlocks.map(timeBlock =>
+                    timeBlocks.push(
+                        {
+                            nb_hours: timeBlock.nbHours,
+                            energy_quantity: timeBlock.energyQuantity,
+                            min_price: timeBlock.minPrice,
+                            energy_park_id: park.id
+                        })
+                )
+                await TimeBlock.bulkCreate(timeBlocks);
 
-        return park;
+                console.log("Created new Energy Park with auto-generated ID:", park.id);
+            });
+
+            return park;
+        }
     }
 }
