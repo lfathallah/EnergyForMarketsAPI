@@ -59,7 +59,7 @@ app.post('/markets', async (req, res) =>  {
     res.status(response.statusCode).send(response.message);
 });
 app.get('/markets', async (req, res) => {
-    let response = await marketController.findAllWithOffers();
+    let response = await marketController.getAllMarketsWithOffers();
     res.status(response.statusCode).send(response.message);
 });
 

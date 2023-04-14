@@ -21,10 +21,73 @@ consumes:
 produces:
   - application/json
 paths:
-  "/market/{id}/parks":
-    get:
+  /parks:
+    post:
       tags:
         - Parks
+      description: 'Create new park in system. For park type: 1 -> eolian, 2 -> solar and 3 -> hydraulics'
+      parameters:
+        - name: park
+          in: body
+          description: Park that we want to create
+          schema:
+            $ref: "#/definitions/Park"
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: New park is created
+          schema:
+            $ref: "#/definitions/Park"
+  /offers:
+    post:
+      tags:
+        - Offers
+      description: 'Create new offer in system. Make sure to set the TimeBlocks ids in the models. You can call the GET /time-blocks to get the list of the detailed time blocks'
+      parameters:
+        - name: offer
+          in: body
+          description: Offer that we want to create
+          schema:
+            $ref: "#/definitions/Offer"
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: New park is created
+          schema:
+            $ref: "#/definitions/Offer"
+  /markets:
+    post:
+      tags:
+        - Markets
+      description: 'Create new market in system. For market type: 1 -> primary, 2 -> secondary and 3 -> rapid'
+      parameters:
+        - name: park
+          in: body
+          description: Market that we want to create
+          schema:
+            $ref: "#/definitions/Market"
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: New market is created
+          schema:
+            $ref: "#/definitions/Market"
+    get:
+      tags:
+        - Markets
+      summary: 'Get all offers of each market. For market type: 1 -> primary, 2 -> secondary and 3 -> rapid'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: "#/definitions/MarketsWithOffers"
+  /markets/{id}/parks:
+    get:
+      tags:
+        - Markets
       summary: Get all parks of a given market
       parameters:
         - name: id
@@ -38,53 +101,8 @@ paths:
         '200':
           description: OK
           schema:
-            "$ref": "#/definitions/Parks"
-  "/parks/new":
-    post:
-      tags:
-        - Parks
-      description: Create new user in system
-      parameters:
-        - name: park
-          in: body
-          description: Park that we want to create
-          schema:
-            "$ref": "#/definitions/Park"
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: New park is created
-          schema:
-            "$ref": "#/definitions/Park"
-  "/market/all/offers":
-    get:
-      tags:
-        - Offers
-      summary: Get all offers for a each market
-      responses:
-        '200':
-          description: OK
-          schema:
-            "$ref": "#/definitions/OffersPerMarket"
-  "/offers/new":
-    post:
-      tags:
-        - Offers
-      description: Create new user in system
-      parameters:
-        - name: offer
-          in: body
-          description: Offer that we want to create
-          schema:
-            "$ref": "#/definitions/Offer"
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: New offer is created
-          schema:
-            "$ref": "#/definitions/Offer"
+            $ref: "#/definitions/MarketWithParks"
+
 definitions:
   Park:
     required:
@@ -98,25 +116,25 @@ definitions:
         type: string
       address:
         type: string
-      type:
-        type: integer
+      energyTypeId:
+        type_id: integer
       timeBlocks:
-        "$ref": "#/definitions/TimeBlocks"
+        $ref: "#/definitions/TimeBlocks"
   Parks:
     type: array
     items:
       $ref: "#/definitions/Park"
   TimeBlock:
     required:
-      - nbHours
-      - energyQuantity
-      - minPrice
+      - nb_hours
+      - energy_quantity
+      - min_price
     properties:
-      nbHours:
+      nb_hours:
         type: integer
-      energyQuantity:
+      energy_quantity:
         type: number
-      minPrice:
+      min_price:
         type: number
   TimeBlocks:
     type: array
@@ -126,19 +144,78 @@ definitions:
     required:
       - price
       - id
-      - energyQuantity
-      - marketName
+      - energy_quantity
+      - market_id
     properties:
       id:
         type: integer
         uniqueItems: true
-      marketName:
+      market_id:
         type: integer
       price:
         type: number
-      energyQuantity:
+      energy_quantity:
         type: integer
+      timeBlocks:
+        type: array
+        items:
+          type: integer
   Offers:
     type: array
     items:
       $ref: "#/definitions/Offer"
+  Market:
+    required:
+      - type_id
+      - id
+    properties:
+      id:
+        type: integer
+        uniqueItems: true
+      energy_reserve_min:
+        type: number
+      energy_reserve_max:
+        type: number
+      type_id:
+        type: integer
+  Markets:
+    type: array
+    items:
+      $ref: "#/definitions/Market"
+  MarketWithParks:
+    required:
+      - type_id
+      - id
+    properties:
+      id:
+        type: integer
+        uniqueItems: true
+      energy_reserve_min:
+        type: number
+      energy_reserve_max:
+        type: number
+      type_id:
+        type: integer
+      parks:
+        $ref: "#definitions/Parks"
+  MarketWithOffers:
+    required:
+      - type_id
+      - id
+    properties:
+      id:
+        type: integer
+        uniqueItems: true
+      energy_reserve_min:
+        type: number
+      energy_reserve_max:
+        type: number
+      type_id:
+        type: integer
+      offers:
+        $ref: "#definitions/Offers"
+  MarketsWithOffers:
+    type: array
+    items:
+      $ref: "#/definitions/MarketWithOffers"
+

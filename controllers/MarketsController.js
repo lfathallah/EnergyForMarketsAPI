@@ -6,14 +6,13 @@ export default class MarketsController {
     }
 
     async addMarket(data) {
-        let type = data.type_id;
         try {
             console.log(`Creating new Energy Market`);
             let market = await this.repository.createMarket(data);
             console.log(`Market created successfully`);
 
             return {
-                message: `The new Energy Market with name ${market.typeName} has been created successfully with an auto-generated ID [${market.id}]`,
+                message: `The new Energy Market has been created successfully with an auto-generated ID [${market.id}]`,
                 statusCode: 200
             }
         } catch (error) {
@@ -32,7 +31,7 @@ export default class MarketsController {
             console.log(`Found all Markets and their offers successfully`);
 
             return {
-                message: `Found all Markets and their offers successfully`,
+                message: markets,
                 statusCode: 200
             }
         } catch (error) {
