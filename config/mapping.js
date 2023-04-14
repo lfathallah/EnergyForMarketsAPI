@@ -12,7 +12,7 @@ const initMappings = (sequelize) => {
         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
         name: DataTypes.STRING,
         address: DataTypes.STRING,
-        type: DataTypes.INTEGER
+        type_id: DataTypes.INTEGER
     }, {
         sequelize,
         schema: 'public',
@@ -31,7 +31,7 @@ const initMappings = (sequelize) => {
     })
 
     MarketType.init({
-        id: { type: DataTypes.INTEGER, primaryKey: true},
+        id: {type: DataTypes.INTEGER, primaryKey: true},
         type: DataTypes.STRING
     }, {
         sequelize,
@@ -42,7 +42,7 @@ const initMappings = (sequelize) => {
 
     EnergyMarket.init({
         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-        type: DataTypes.INTEGER,
+        type_id: DataTypes.INTEGER,
         energy_reserve_min: DataTypes.STRING,
         energy_reserve_max: DataTypes.STRING,
     }, {
@@ -68,7 +68,7 @@ const initMappings = (sequelize) => {
 
     Offer.init({
         id: {type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true},
-        market: DataTypes.INTEGER,
+        market_id: DataTypes.INTEGER,
         price: DataTypes.FLOAT,
         energy_quantity: DataTypes.INTEGER
     }, {
@@ -81,13 +81,13 @@ const initMappings = (sequelize) => {
     //** Many-to-One association between energy-park and energy-type
     EnergyType.hasMany(EnergyPark,{
         sequelize,
-        foreignKey: "type"
+        foreignKey: "type_id"
     })
 
     //** Many-to-One association between energy-market and market-type
     MarketType.hasMany(EnergyMarket,{
         sequelize,
-        foreignKey: "type"
+        foreignKey: "type_id"
     })
 
     //** Many-to-One association between TimeBlock and EnergyPark
