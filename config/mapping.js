@@ -43,7 +43,6 @@ const initMappings = (sequelize) => {
     EnergyMarket.init({
         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
         type: DataTypes.INTEGER,
-        year: DataTypes.INTEGER,
         energy_reserve_min: DataTypes.STRING,
         energy_reserve_max: DataTypes.STRING,
     }, {

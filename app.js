@@ -1,12 +1,13 @@
 import * as dotenv from 'dotenv'
 dotenv.config()
-import express, {response} from "express"
+import express from "express"
 import {connectAndInit} from "./utils/db-connect.js";
 import bodyParser from "body-parser";
 import cors from "cors";
 import * as swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
-import ParksController from "./controllers/ParksController.js";
+import EnergyParksController from "./controllers/EnergyParksController.js";
+import ParksRepository from "./repository/EnergyParkRepository.js";
 const swaggerDocument = YAML.load('./swagger.yaml')
 
 const port = 3000;
@@ -19,11 +20,13 @@ app.use(cors());
 
 let sequelize;
 let parksController;
+let parkRepository;
 
  app.use(async (req, _res, next) => {
 
      sequelize = await connectAndInit();
-     parksController = new ParksController(sequelize);
+     parkRepository = new ParksRepository(sequelize);
+     parksController = new EnergyParksController(parkRepository);
      next()
  })
 

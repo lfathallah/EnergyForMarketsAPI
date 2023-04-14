@@ -1,6 +1,6 @@
 import EnergyPark from "../models/EnergyPark.js";
 import TimeBlock from "../models/TimeBlock.js";
-export default class ParkRepository {
+export default class EnergyParkRepository {
 
     constructor(sequlize) {
         this.sequelize = sequlize;

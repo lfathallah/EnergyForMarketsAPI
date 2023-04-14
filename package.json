@@ -7,15 +7,11 @@
   "author": "Linda FATHALLAH",
   "type": "module",
   "scripts": {
-    "test": "mocha tests/unit/",
+    "test": "jasmine",
     "start": "node app.js"
-  },
-  "jest": {
-    "restoreMocks": true
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.309.0",
-    "@jest/globals": "^29.5.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
@@ -30,7 +26,7 @@
     "chai": "^4.2.0",
     "ejs": "latest",
     "express": "latest",
-    "json": "^11.0.0",
-    "mocha": "^10.2.0"
+    "jasmine": "^4.6.0",
+    "json": "^11.0.0"
   }
 }

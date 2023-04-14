@@ -1,17 +1,15 @@
-import ParkRepository from "./../persistence/ParkRepository.js";
 
-export default class ParksController {
+export default class EnergyParksController {
 
-    constructor(sequelize) {
-        this.sequelize = sequelize;
+    constructor(repository) {
+        this.repository = repository;
     }
 
     async addPark(data) {
         let name = data.name;
-        let repository = new ParkRepository(this.sequelize);
         try {
             console.log(`Creating new Energy Park with name ${name}`);
-            let park = await repository.createPark(data);
+            let park = await this.repository.createPark(data);
             console.log(`Park created successfully`);
 
             return {

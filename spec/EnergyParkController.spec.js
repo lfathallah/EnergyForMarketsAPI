@@ -1,0 +1,76 @@
+import EnergyParksController from '../controllers/EnergyParksController.js';
+
+describe("EnergyParksController", () => {
+  let parksController;
+  let parkRepositoryMock;
+  let sequelizeMock;
+
+  beforeEach(() => {
+    parkRepositoryMock = jasmine.createSpyObj("ParkRepository", [
+      "createPark",
+    ]);
+
+    sequelizeMock = {
+      authenticate: jasmine.createSpy("authenticate"),
+      define: jasmine.createSpy("define"),
+      transaction: jasmine.createSpy("transaction"),
+      close: jasmine.createSpy("close"),
+      options: {
+        dialect: "sqlite",
+        storage: ":memory:",
+        logging: false,
+      },
+    };
+
+    parksController = new EnergyParksController(parkRepositoryMock);
+  });
+
+  describe("addPark", () => {
+    it("should create a new park with the given data", async () => {
+      // given
+      let parkData = {
+        name: 'Energy Park',
+        type: 1,
+        address: 'Paris'
+      };
+      let park = {
+        id: 1,
+        name: 'Energy Park',
+        type: 1,
+        address: 'Paris'
+      };
+
+      parkRepositoryMock.createPark.and.returnValue(park);
+
+      // when
+      const result = await parksController.addPark(parkData);
+
+      // Assert
+      expect(parkRepositoryMock.createPark).toHaveBeenCalledWith(parkData);
+      expect(result.statusCode).toBe(200);
+      expect(result.message).toBe(
+          `The new Energy Park with name ${park.name} has been created successfully with an auto-generated ID [${park.id}]`
+      );
+    });
+
+    it("should return an error message if park creation fails", async () => {
+      // Arrange
+      let parkData = {
+        name: 'Energy Park',
+        type: 1,
+        address: 'Paris'
+      };
+
+      const errorMessage = "Error creating park";
+      parkRepositoryMock.createPark.and.throwError(errorMessage);
+
+      // Act
+      const result = await parksController.addPark(parkData);
+
+      // Assert
+      expect(parkRepositoryMock.createPark).toHaveBeenCalledWith(parkData);
+      expect(result.statusCode).toBe(500);
+      expect(result.message).toBe(`Error creating new Energy Park with name ${parkData.name}`);
+    });
+  });
+});
