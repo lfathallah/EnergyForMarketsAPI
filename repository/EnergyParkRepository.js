@@ -2,8 +2,8 @@ import EnergyPark from "../models/EnergyPark.js";
 import TimeBlock from "../models/TimeBlock.js";
 export default class EnergyParkRepository {
 
-    constructor(sequlize) {
-        this.sequelize = sequlize;
+    constructor(sequelize) {
+        this.sequelize = sequelize;
     }
 
     async createPark(data) {
@@ -12,7 +12,7 @@ export default class EnergyParkRepository {
 
             await this.sequelize.transaction(async (transaction) => {
                 park = await EnergyPark.create(
-                    {name: data.name, address: data.address, type: data.type},
+                    {name: data.name, address: data.address, type_id: data.energyTypeId},
                     transaction
                 );
 

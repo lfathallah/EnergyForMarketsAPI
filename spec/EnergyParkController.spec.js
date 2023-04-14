@@ -30,13 +30,13 @@ describe("EnergyParksController", () => {
       // given
       let parkData = {
         name: 'Energy Park',
-        type: 1,
+        type_id: 1,
         address: 'Paris'
       };
       let park = {
         id: 1,
         name: 'Energy Park',
-        type: 1,
+        type_id: 1,
         address: 'Paris'
       };
 
@@ -57,7 +57,7 @@ describe("EnergyParksController", () => {
       // Arrange
       let parkData = {
         name: 'Energy Park',
-        type: 1,
+        type_id: 1,
         address: 'Paris'
       };
 
