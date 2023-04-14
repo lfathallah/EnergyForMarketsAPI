@@ -10,6 +10,8 @@ import EnergyParksController from "./controllers/EnergyParksController.js";
 import ParksRepository from "./repository/EnergyParkRepository.js";
 import OffersController from "./controllers/OffersController.js";
 import OfferRepository from "./repository/OfferRepository.js";
+import MarketsController from "./controllers/MarketsController.js";
+import EnergyMarketRepository from "./repository/EnergyMarketRepository.js";
 const swaggerDocument = YAML.load('./swagger.yaml')
 
 const port = 3000;
@@ -25,6 +27,8 @@ let parksController;
 let parkRepository;
 let offerController;
 let offerRepository;
+let marketController;
+let marketRepository;
 
  app.use(async (req, _res, next) => {
      sequelize = await connectAndInit();
@@ -32,6 +36,9 @@ let offerRepository;
      parksController = new EnergyParksController(parkRepository);
      offerRepository = new OfferRepository(sequelize);
      offerController = new OffersController(parkRepository);
+     marketRepository = new EnergyMarketRepository(sequelize);
+     marketController = new MarketsController(parkRepository);
+
      next()
  })
 
@@ -45,6 +52,10 @@ app.post('/parks', async (req, res) =>  {
 });
 app.post('/offers', async (req, res) =>  {
     let response = offerController.addOffer(req.body);
+    res.status((await response).statusCode).send((await response).message);
+});
+app.post('/markets', async (req, res) =>  {
+    let response = marketController.addMarket(req.body);
     res.status((await response).statusCode).send((await response).message);
 });
 
