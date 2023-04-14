@@ -3,24 +3,11 @@ import EnergyParksController from '../controllers/EnergyParksController.js';
 describe("EnergyParksController", () => {
   let parksController;
   let parkRepositoryMock;
-  let sequelizeMock;
 
   beforeEach(() => {
     parkRepositoryMock = jasmine.createSpyObj("ParkRepository", [
       "createPark",
     ]);
-
-    sequelizeMock = {
-      authenticate: jasmine.createSpy("authenticate"),
-      define: jasmine.createSpy("define"),
-      transaction: jasmine.createSpy("transaction"),
-      close: jasmine.createSpy("close"),
-      options: {
-        dialect: "sqlite",
-        storage: ":memory:",
-        logging: false,
-      },
-    };
 
     parksController = new EnergyParksController(parkRepositoryMock);
   });
@@ -54,7 +41,7 @@ describe("EnergyParksController", () => {
     });
 
     it("should return an error message if park creation fails", async () => {
-      // Arrange
+      // given
       let parkData = {
         name: 'Energy Park',
         type_id: 1,
@@ -64,10 +51,10 @@ describe("EnergyParksController", () => {
       const errorMessage = "Error creating park";
       parkRepositoryMock.createPark.and.throwError(errorMessage);
 
-      // Act
+      // when
       const result = await parksController.addPark(parkData);
 
-      // Assert
+      // then
       expect(parkRepositoryMock.createPark).toHaveBeenCalledWith(parkData);
       expect(result.statusCode).toBe(500);
       expect(result.message).toBe(`Error creating new Energy Park with name ${parkData.name}`);
