@@ -1,5 +1,6 @@
 import Offer from "../models/Offer.js";
 import TimeBlock from "../models/TimeBlock.js";
+import EnergyPark from "../models/EnergyPark.js";
 
 export default class OfferRepository {
 
@@ -13,17 +14,19 @@ export default class OfferRepository {
 
             await this.sequelize.transaction(async (transaction) => {
                 offer = await Offer.create(
-                    {marketId: data.market_id, price: data.price, energy_quantity: data.energy_quantity},
+                    {id: data.id, market_id: data.market_id, price: data.price, energy_quantity: data.energy_quantity},
                     transaction
                 );
 
-                await TimeBlock.update({
-                    offer_id: offer.id
-                }, {
-                    where: {
-                        id: data.timeBlocks
-                    }
-                });
+                let promises = [];
+                data.timeBlocks?.forEach(id =>
+                    promises.push(TimeBlock.update({offer_id: offer.id }, {
+                        where: {
+                            id: id
+                        }
+                    }))
+                );
+                await Promise.all(promises);
 
                 console.log("Created new Offer with auto-generated ID:", offer.id);
             });

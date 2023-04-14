@@ -35,9 +35,9 @@ let marketRepository;
      parkRepository = new ParksRepository(sequelize);
      parksController = new EnergyParksController(parkRepository);
      offerRepository = new OfferRepository(sequelize);
-     offerController = new OffersController(parkRepository);
+     offerController = new OffersController(offerRepository);
      marketRepository = new EnergyMarketRepository(sequelize);
-     marketController = new MarketsController(parkRepository);
+     marketController = new MarketsController(marketRepository);
 
      next()
  })
