@@ -8,6 +8,8 @@ import * as swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import EnergyParksController from "./controllers/EnergyParksController.js";
 import ParksRepository from "./repository/EnergyParkRepository.js";
+import OffersController from "./controllers/OffersController.js";
+import OfferRepository from "./repository/OfferRepository.js";
 const swaggerDocument = YAML.load('./swagger.yaml')
 
 const port = 3000;
@@ -21,12 +23,15 @@ app.use(cors());
 let sequelize;
 let parksController;
 let parkRepository;
+let offerController;
+let offerRepository;
 
  app.use(async (req, _res, next) => {
-
      sequelize = await connectAndInit();
      parkRepository = new ParksRepository(sequelize);
      parksController = new EnergyParksController(parkRepository);
+     offerRepository = new OfferRepository(sequelize);
+     offerController = new OffersController(parkRepository);
      next()
  })
 
@@ -34,8 +39,12 @@ app.get('/', (req, res) => {
     console.log("Welcome to the energy offers manager");
     res.send("Welcome to the energy offers manager");
 });
-app.post('/parks/new', async (req, res) =>  {
+app.post('/parks', async (req, res) =>  {
     let response = parksController.addPark(req.body);
+    res.status((await response).statusCode).send((await response).message);
+});
+app.post('/offers', async (req, res) =>  {
+    let response = offerController.addOffer(req.body);
     res.status((await response).statusCode).send((await response).message);
 });
 
