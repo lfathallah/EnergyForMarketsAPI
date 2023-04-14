@@ -78,6 +78,8 @@ const initMappings = (sequelize) => {
         tableName: 'offer',
     });
 
+    EnergyMarket.hasMany(Offer);
+
     //** Many-to-One association between energy-park and energy-type
     EnergyType.hasMany(EnergyPark,{
         sequelize,

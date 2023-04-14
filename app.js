@@ -47,16 +47,20 @@ app.get('/', (req, res) => {
     res.send("Welcome to the energy offers manager");
 });
 app.post('/parks', async (req, res) =>  {
-    let response = parksController.addPark(req.body);
-    res.status((await response).statusCode).send((await response).message);
+    let response = await parksController.addPark(req.body);
+    res.status(response.statusCode).send(response.message);
 });
 app.post('/offers', async (req, res) =>  {
-    let response = offerController.addOffer(req.body);
-    res.status((await response).statusCode).send((await response).message);
+    let response = await offerController.addOffer(req.body);
+    res.status(response.statusCode).send(response.message);
 });
 app.post('/markets', async (req, res) =>  {
-    let response = marketController.addMarket(req.body);
-    res.status((await response).statusCode).send((await response).message);
+    let response = await marketController.addMarket(req.body);
+    res.status(response.statusCode).send(response.message);
+});
+app.get('/markets', async (req, res) => {
+    let response = await marketController.findAllWithOffers();
+    res.status(response.statusCode).send(response.message);
 });
 
 app.listen(port, function(err){

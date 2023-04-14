@@ -13,7 +13,7 @@ export default class OfferRepository {
 
             await this.sequelize.transaction(async (transaction) => {
                 offer = await Offer.create(
-                    {marketId: data.market_id, price: data.price, energy_quantity: data.energyQuantity},
+                    {marketId: data.market_id, price: data.price, energy_quantity: data.energy_quantity},
                     transaction
                 );
 

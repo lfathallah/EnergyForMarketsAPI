@@ -22,5 +22,24 @@ export default class MarketsController {
                 statusCode: 500
             }
         }
+    };
+
+    async getAllMarketsWithOffers() {
+        try {
+            console.log(`Listing all markets and their offers`);
+            let markets = await this.repository.findAllWithOffers();
+
+            console.log(`Found all Markets and their offers successfully`);
+
+            return {
+                message: `Found all Markets and their offers successfully`,
+                statusCode: 200
+            }
+        } catch (error) {
+            return {
+                message: `finding all Markets and their offers`,
+                statusCode: 500
+            }
+        }
     }
 }

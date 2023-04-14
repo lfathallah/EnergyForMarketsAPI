@@ -12,7 +12,7 @@ export default class EnergyParkRepository {
 
             await this.sequelize.transaction(async (transaction) => {
                 park = await EnergyPark.create(
-                    {name: data.name, address: data.address, type_id: data.energyTypeId},
+                    {name: data.name, address: data.address, type_id: data.type_id},
                     transaction
                 );
 
@@ -20,9 +20,9 @@ export default class EnergyParkRepository {
                 data.timeBlocks.map(timeBlock =>
                     timeBlocks.push(
                         {
-                            nb_hours: timeBlock.nbHours,
-                            energy_quantity: timeBlock.energyQuantity,
-                            min_price: timeBlock.minPrice,
+                            nb_hours: timeBlock.nb_hours,
+                            energy_quantity: timeBlock.energy_quantity,
+                            min_price: timeBlock.min_price,
                             energy_park_id: park.id
                         })
                 )
