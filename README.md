@@ -51,7 +51,7 @@ $ ./start.sh (or sh start.sh)
 
 ## 2- Run from ECS
 
-The ECS instance is already up. You only need to open the following URL : http://13.39.166.13:3000/api-docs/
+The ECS instance is already up. You only need to open the following URL : http://13.39.166.13:3000/api-docs
 
 # Run unit tests
 You can either run the test from terminal with the following command :
